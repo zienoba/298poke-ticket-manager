@@ -17,22 +17,22 @@ class Ticket(TicketBase):
     uuid: Optional[UUID]
     order: int 
     
-class GetTicketListResponce(BaseModel):
+class TicketListResponse(BaseModel):
     ticket_list: List[Ticket]    
     
-class CreateTicketRequest(TicketBase):
+class TicketCreateRequest(TicketBase):
     pass
     
-class CreateTicketResponce(BaseModel):
+class TicketCreateResponse(BaseModel):
     status: StatusCode
-    request: CreateTicketRequest
+    request: TicketCreateRequest
     
-class CallNumberRequest(TicketBase):
+class TicketCallRequest(TicketBase):
     uuid: Optional[UUID]
     
-class CallNumberResponce(BaseModel):
+class TicketCallResponse(BaseModel):
     status: StatusCode
-    request: CallNumberRequest
+    request: TicketCallRequest
      
 
 
