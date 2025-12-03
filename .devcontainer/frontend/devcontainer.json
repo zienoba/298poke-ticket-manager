@@ -1,6 +1,6 @@
 {
   "name": "react-frontend-dev",
-  "dockerComposeFile": ["../../docker-compose.yaml"],
+  "dockerComposeFile": ["../../docker-compose.yml"],
   "service": "frontend",
   "workspaceFolder": "/workspace/frontend",
   "remoteUser": "node",
@@ -12,7 +12,5 @@
         "esbenp.prettier-vscode"
       ]
     }
-  },
-
-  "postCreateCommand": "npm install"
+  }
 }
