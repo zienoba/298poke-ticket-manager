@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from routers import ticket, manager
+from .routers import ticket, manager, display
 import psycopg2
 import os
 from tortoise.contrib.fastapi import register_tortoise
-from config import TORTOISE_ORM
+from .config import TORTOISE_ORM
 import uvicorn
 
 app = FastAPI()
@@ -25,6 +25,14 @@ def db_check():
     
 app.include_router(ticket.router)
 app.include_router(manager.router)
+app.include_router(display.router)
+
+register_tortoise(
+    app,
+    config=TORTOISE_ORM,
+    generate_schemas=True,
+    add_exception_handlers=True,
+)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug")

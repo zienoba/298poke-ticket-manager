@@ -2,4 +2,3 @@
 postgres_data/
 __pycache__
 migrations/
-pyproject.toml
