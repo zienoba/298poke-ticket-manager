@@ -14,3 +14,29 @@ aerich upgrade
 cd /workspace/backend
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
+## アプリケーションの起動
+1. 必要なもの
+[docker](https://www.docker.com/ja-jp/)
+
+2. コンテナの起動
+```bash
+docker-compose up -d --build
+```
+3. dbのマイグレーション
+backendのコンテナに入る
+```bash
+docker exec -it fastapi-backend bash
+```
+初回なら
+```bash
+aerich init -t app.config.TORTOISE_ORM
+aerich init-db
+```
+dbのmodelを更新したなら
+```bash
+aerich migrate
+aerich upgrade
+```
+4. 起動
+[webアプリ](http://localhost:3000/)
+[APIドキュメント](http://localhost:8000/docs)
