@@ -10,9 +10,6 @@ RUN apt-get update && apt-get install -y git
 COPY package.json ./
 RUN npm install
 
-# アプリ全体をコピー
-COPY . .
-
 # 開発用サーバの起動
 CMD ["npm", "run", "dev"]
 # グローバルに vite など入れるなら（必要なら）

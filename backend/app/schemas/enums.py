@@ -6,5 +6,9 @@ class StatusCode(Enum):
     BADREQUEST = "400 Bad Request"
 
 class Activity(str, Enum):
-    CARD = "card game"
-    GAME = "game console"
+    CARD = "card_game"
+    GAME = "game_console"
+    
+class WebSocketType(str, Enum):
+    CALL = "CALL"
+    CLEAR = "CLEAR"

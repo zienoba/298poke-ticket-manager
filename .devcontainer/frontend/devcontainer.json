@@ -3,8 +3,8 @@
   "dockerComposeFile": ["../../docker-compose.yml"],
   "service": "frontend",
   "workspaceFolder": "/workspace/frontend",
-  "remoteUser": "node",
-
+  "remoteUser": "root",
+  "updateRemoteUserUID": true,
   "customizations": {
     "vscode": {
       "extensions": [
