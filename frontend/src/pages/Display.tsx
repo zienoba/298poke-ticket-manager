@@ -6,9 +6,19 @@ import type { WebSocketMessage } from '../types';
 
 const useStyles = makeStyles({
     container: {
-        padding: '40px',
         backgroundColor: tokens.colorNeutralBackground1,
         minHeight: '100vh',
+        position: 'relative', // Ensure container is relative for absolute positioning
+    },
+    content: {
+        padding: '40px',
+        paddingTop: '80px', // Add padding to avoid overlap with back button
+    },
+    backButton: {
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        zIndex: 10,
     },
     header: {
         display: 'flex',
@@ -19,6 +29,7 @@ const useStyles = makeStyles({
     status: {
         marginBottom: '20px',
         fontWeight: 'bold',
+        left: '20px',
     },
     card: {
         marginTop: '20px',
@@ -83,43 +94,45 @@ export const Display = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
+            <div className={styles.backButton}>
                 <Button icon={<ArrowLeftRegular />} onClick={() => navigate('/')}>
                     Back
                 </Button>
-                <Title1>Call Display</Title1>
             </div>
-            <div className={styles.status}>
-                Status: <span style={{ color: status === 'Connected' ? tokens.colorPaletteGreenForeground1 : tokens.colorPaletteRedForeground1 }}>{status}</span>
-            </div>
-
-            {messages.length > 0 && (
-                <div style={{ marginBottom: '40px' }}>
-                    <Title1 as="h2" style={{ marginBottom: '20px' }}>Current Call</Title1>
-                    <Card className={styles.card} style={{ padding: '40px', backgroundColor: tokens.colorBrandBackground2 }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-                            <Text size={900} weight="bold">Ticket ID: {messages[0].ticket_id}</Text>
-                            <Text size={600}>Activity: {messages[0].activity_type}</Text>
-                        </div>
-                    </Card>
+            <div className={styles.content}>
+                <div className={styles.status}>
+                    Status: <span style={{ color: status === 'Connected' ? tokens.colorPaletteGreenForeground1 : tokens.colorPaletteRedForeground1 }}>{status}</span>
                 </div>
-            )}
-
-            {messages.length > 1 && (
-                <div>
-                    <Title1 as="h3" style={{ marginBottom: '20px', fontSize: '24px' }}>History</Title1>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                        {messages.slice(1).map((msg, index) => (
-                            <Card key={index} className={styles.card} style={{ padding: '15px' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Text size={400} weight="semibold">Ticket ID: {msg.ticket_id}</Text>
-                                    <Text size={300}>{msg.activity_type}</Text>
+                {messages.length > 0 && (
+                    <div style={{ marginBottom: '40px' }}>
+                        <Title1 as="h2" style={{ marginBottom: '20px' }}>Current Call</Title1>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <Card className={styles.card} style={{ padding: '40px', backgroundColor: tokens.colorBrandBackground2, width: '100%', maxWidth: '600px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+                                    <Text size={1000} weight="bold">Ticket ID: {messages[0].ticket_id}</Text>
+                                    <Text size={600}>Activity: {messages[0].activity_type}</Text>
                                 </div>
                             </Card>
-                        ))}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+
+                {messages.length > 1 && (
+                    <div>
+                        <Title1 as="h3" style={{ marginBottom: '20px', fontSize: '24px' }}>History</Title1>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            {messages.slice(1).map((msg, index) => (
+                                <Card key={index} className={styles.card} style={{ padding: '15px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Text size={400} weight="semibold">Ticket ID: {msg.ticket_id}</Text>
+                                        <Text size={300}>{msg.activity_type}</Text>
+                                    </div>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
