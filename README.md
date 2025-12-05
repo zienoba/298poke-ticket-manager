@@ -22,7 +22,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```bash
 docker-compose up -d --build
 ```
-3. dbのマイグレーション
+3. dbのマイグレーション<br>
 backendのコンテナに入る
 ```bash
 docker exec -it fastapi-backend bash
