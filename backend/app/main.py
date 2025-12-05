@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from .routers import ticket, manager, display
 import psycopg2
 import os
@@ -7,6 +8,19 @@ from .config import TORTOISE_ORM
 import uvicorn
 
 app = FastAPI()
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,   # フロントのURL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 def read_root():
     return {"message": "Hello from FastAPI + PostgreSQL!"}

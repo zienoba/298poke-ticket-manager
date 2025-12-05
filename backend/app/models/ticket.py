@@ -6,7 +6,7 @@ class TicketState(Model):
     uuid = fields.UUIDField(pk=True)
     ticket_id = fields.IntField(required=True)
     activity_type= fields.CharEnumField(Activity)
-    is_available = fields.BooleanField(required=True, default=True)
+    is_distributed = fields.BooleanField(required=True, default=True)
     distribution_time = fields.DatetimeField(auto_now=True)
     
     class Meta:

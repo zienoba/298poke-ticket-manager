@@ -1,6 +1,6 @@
 {
   "name": "fastapi-dev",
-  "dockerComposeFile": ["../docker-compose.yml"],
+  "dockerComposeFile": ["../../docker-compose.yml"],
   "service": "backend",
   "workspaceFolder": "/workspace",
   "remoteUser": "vscode",
