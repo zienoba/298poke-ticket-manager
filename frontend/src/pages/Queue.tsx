@@ -18,6 +18,8 @@ const useStyles = makeStyles({
     },
 });
 
+import { api } from '../services/api';
+
 export const Queue = () => {
     const styles = useStyles();
     const navigate = useNavigate();
@@ -29,35 +31,23 @@ export const Queue = () => {
 
     const fetchQueueStatus = async () => {
         setLoading(true);
-        setError(null);
+        setError(null); // Reset error state
         try {
             console.log(`Fetching queue status for ${activityType} / ${ticketId}`);
-            const response = await fetch(`http://localhost:8000/ticket/${activityType}/${ticketId}`);
-            console.log('Response status:', response.status);
+            const data = await api.fetchQueueStatus(activityType, ticketId);
+            console.log('Response data:', data);
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Response data:', data);
-
-                if (data && typeof data.order === 'number' && data.order >= 0)  {
-                    setQueueOrder(data.order);
-                } else {
-                    console.warn('Invalid data format received:', data);
-                    setQueueOrder(null);
-                    setError('チケットが存在しません');
-                }
-            } else if (response.status === 400) {
-                setQueueOrder(null);
-                setError('チケットが存在しません');
+            if (data && typeof data.order === 'number' && data.order >= 0) {
+                setQueueOrder(data.order);
             } else {
-                console.error('Failed to fetch queue status');
+                console.warn('Invalid data format received:', data);
                 setQueueOrder(null);
-                setError('チケットが存在しません');
+                setError('チケットが存在しません'); // Error for invalid data format
             }
         } catch (error) {
             console.error('Error fetching queue status:', error);
             setQueueOrder(null);
-            setError('チケットが存在しません');
+            setError('チケットが存在しません'); // Catch block error
         } finally {
             setLoading(false);
         }
@@ -107,7 +97,7 @@ export const Queue = () => {
                 {loading ? 'Checking...' : 'Check Status'}
             </Button>
             {error && (
-                <div style={{ marginTop: '20px'}}>
+                <div style={{ marginTop: '20px' }}>
                     <Title1>{error}</Title1>
                 </div>
             )}

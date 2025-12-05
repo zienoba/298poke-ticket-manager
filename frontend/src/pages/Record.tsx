@@ -16,6 +16,8 @@ import {
 import type { SelectionEvents, OptionOnSelectData } from '@fluentui/react-components';
 import { ArrowLeftRegular } from '@fluentui/react-icons';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
+import type { TicketRecord } from '../types';
 
 const useStyles = makeStyles({
     container: {
@@ -34,12 +36,6 @@ const useStyles = makeStyles({
     },
 });
 
-interface TicketRecord {
-    activity_type: string;
-    distribution_time: string;
-    call_time: string;
-}
-
 export const Record = () => {
     const styles = useStyles();
     const navigate = useNavigate();
@@ -48,13 +44,8 @@ export const Record = () => {
 
     const fetchRecords = async () => {
         try {
-            const response = await fetch('http://localhost:8000/manager/record');
-            if (response.ok) {
-                const data = await response.json();
-                setRecords(data.ticket_record_list);
-            } else {
-                console.error('Failed to fetch records');
-            }
+            const data = await api.fetchRecords();
+            setRecords(data.ticket_record_list);
         } catch (error) {
             console.error('Error fetching records:', error);
         }

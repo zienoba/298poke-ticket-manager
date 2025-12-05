@@ -18,6 +18,8 @@ import {
 import type { SelectionEvents, OptionOnSelectData, InputOnChangeData } from '@fluentui/react-components';
 import { ArrowLeftRegular } from '@fluentui/react-icons';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
+import type { Ticket } from '../types';
 
 const useStyles = makeStyles({
     container: {
@@ -50,12 +52,6 @@ const useStyles = makeStyles({
     }
 });
 
-interface Ticket {
-    ticket_id: number;
-    activity_type: string;
-    order: number;
-}
-
 export const Admin = () => {
     const styles = useStyles();
     const navigate = useNavigate();
@@ -68,14 +64,8 @@ export const Admin = () => {
 
     const fetchTicketList = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/manager/ticket_list/${activityType}`);
-            if (response.ok) {
-                const data = await response.json();
-                setTicketList(data.ticket_list);
-            } else {
-                console.error('Failed to fetch ticket list');
-                setTicketList([]);
-            }
+            const data = await api.fetchTicketList(activityType);
+            setTicketList(data.ticket_list);
         } catch (error) {
             console.error('Error fetching ticket list:', error);
             setTicketList([]);
@@ -84,16 +74,7 @@ export const Admin = () => {
 
     const handleCall = async (ticketId: number) => {
         try {
-            await fetch(`http://localhost:8000/manager/call`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ticket_id: ticketId,
-                    activity_type: activityType,
-                }),
-            });
+            await api.callTicket(ticketId, activityType);
         } catch (error) {
             console.error('Error calling ticket:', error);
         }
@@ -101,19 +82,8 @@ export const Admin = () => {
 
     const handleCollect = async (ticketId: number) => {
         try {
-            const response = await fetch(`http://localhost:8000/manager/collect`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ticket_id: ticketId,
-                    activity_type: activityType,
-                }),
-            });
-            if (response.ok) {
-                fetchTicketList();
-            }
+            await api.collectTicket(ticketId, activityType);
+            fetchTicketList();
         } catch (error) {
             console.error('Error collecting ticket:', error);
         }
@@ -122,24 +92,11 @@ export const Admin = () => {
     const handleCreateTicket = async () => {
         if (!createTicketId) return;
         try {
-            const response = await fetch(`http://localhost:8000/manager/create`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ticket_id: parseInt(createTicketId, 10),
-                    activity_type: createActivityType,
-                }),
-            });
-            if (response.ok) {
-                setCreateTicketId('');
-                // If created ticket matches current view, refresh list
-                if (createActivityType === activityType) {
-                    fetchTicketList();
-                }
-            } else {
-                console.error('Failed to create ticket');
+            await api.createTicket(parseInt(createTicketId, 10), createActivityType);
+            setCreateTicketId('');
+            // If created ticket matches current view, refresh list
+            if (createActivityType === activityType) {
+                fetchTicketList();
             }
         } catch (error) {
             console.error('Error creating ticket:', error);

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { makeStyles, Title1, tokens, Card, Text, Button } from '@fluentui/react-components';
 import { ArrowLeftRegular } from '@fluentui/react-icons';
 import { useNavigate } from 'react-router-dom';
+import type { WebSocketMessage } from '../types';
 
 const useStyles = makeStyles({
     container: {
@@ -29,13 +30,6 @@ const useStyles = makeStyles({
         gap: '10px',
     },
 });
-
-interface WebSocketMessage {
-    type: 'CALL' | 'CLEAR';
-    ticket_id?: number;
-    activity_type?: string;
-    is_distributed?: boolean;
-}
 
 export const Display = () => {
     const styles = useStyles();
