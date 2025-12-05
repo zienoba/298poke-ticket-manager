@@ -15,7 +15,7 @@ cd /workspace/backend
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 ## アプリケーションの起動
-1. 必要なもの
+1. 必要なもの<br>
 [docker](https://www.docker.com/ja-jp/)
 
 2. コンテナの起動
@@ -37,6 +37,6 @@ dbのmodelを更新したなら
 aerich migrate
 aerich upgrade
 ```
-4. 起動
-[webアプリ](http://localhost:3000/)
+4. 起動<br>
+[webアプリ](http://localhost:3000/)<br>
 [APIドキュメント](http://localhost:8000/docs)
