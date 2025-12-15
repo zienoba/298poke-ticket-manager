@@ -7,7 +7,7 @@ WORKDIR /workspace
 RUN apt-get update && apt-get install -y git
 
 # 依存関係をコピーしてインストール
-COPY package.json ./
+COPY . ./
 RUN npm install
 
 # 開発用サーバの起動
