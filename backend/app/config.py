@@ -1,6 +1,8 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
-DB_URL = os.getenv("DATABASE_URL", "postgres://user:password@db:5432/app_db")
+DB_URL = os.getenv("DATABASE_URL")
 
 TORTOISE_ORM = {
     "connections": {
